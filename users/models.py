@@ -21,7 +21,6 @@ class LibraryUser(AbstractUser):
     last_name = models.CharField(blank=True, null=True, max_length=150, verbose_name='last name')
     email = models.CharField(blank=False, null=False, max_length=150)
 
-    email_validation_code = models.CharField(max_length=6, default="148800")
     user_type = models.CharField(max_length=10,
                                  choices=[(tag, tag.value) for tag in UserTypeChoice])
     reader = models.ForeignKey(
