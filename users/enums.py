@@ -2,5 +2,5 @@ from enum import Enum
 
 
 class UserTypeChoice(Enum):
-    LN = "Librarian"
-    RR = "Reader"
+    librarian = "Librarian"
+    reader = "Reader"
