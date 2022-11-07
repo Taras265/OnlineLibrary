@@ -18,9 +18,11 @@ from django.contrib import admin
 from django.urls import path
 
 from config import settings
+from users.views import RegisterView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/register/', RegisterView.as_view(), name='register')
 ]
 
 if settings.DEBUG:

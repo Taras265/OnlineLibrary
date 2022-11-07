@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+
 from users.enums import UserTypeChoice
 
 
@@ -16,10 +17,11 @@ class Reader(models.Model):
 
 
 class LibraryUser(AbstractUser):
+    username = models.CharField(unique=True, max_length=150)
     first_name = models.CharField(blank=False, null=False, max_length=150, verbose_name='first name')
     second_name = models.CharField(blank=True, null=True, max_length=150, verbose_name='second name')
     last_name = models.CharField(blank=False, null=False, max_length=150, verbose_name='last name')
-    email = models.CharField(max_length=150)
+    email = models.CharField(unique=True, max_length=150)
     email_code = models.CharField(max_length=6, default="148800")
 
     user_type = models.CharField(max_length=10,
