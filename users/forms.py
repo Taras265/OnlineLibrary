@@ -44,3 +44,10 @@ class ReaderRegisterForm(forms.Form):
                 validate_password(password)
             except ValidationError:
                 raise ValidationError('Пароль заслабкий.')
+
+
+class EmailValidationForm(forms.Form):
+    email_code = forms.CharField(label='Код підтвердження пошти', widget=forms.TextInput(
+        attrs={'class': 'form-control',
+               'placeholder': "Код підтвердження пошти"
+               }))
