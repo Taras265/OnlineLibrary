@@ -19,7 +19,8 @@ class LibraryUser(AbstractUser):
     first_name = models.CharField(blank=True, null=True, max_length=150, verbose_name='first name')
     second_name = models.CharField(blank=True, null=True, max_length=150, verbose_name='second name')
     last_name = models.CharField(blank=True, null=True, max_length=150, verbose_name='last name')
-    email = models.CharField(blank=False, null=False, max_length=150)
+    email = models.CharField(max_length=150)
+    email_code = models.IntegerField(max_length=4, default=1298)
 
     user_type = models.CharField(max_length=10,
                                  choices=[(tag, tag.value) for tag in UserTypeChoice])
