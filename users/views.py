@@ -1,6 +1,7 @@
 import random
 
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import View
@@ -39,7 +40,7 @@ class RegisterView(View):
 
                 user.save()
                 messages.success(request, self.success_message)
-                return redirect(reverse("email_validation", kwargs={'pk': user.id}))
+                return redirect(reverse('email_validation', kwargs={'pk': user.id}))
             else:
                 return render(request, self.template_name, context={'form': form,
                                                                     'button': 'Зареєструватись'})
@@ -68,12 +69,51 @@ class EmailValidationView(View):
         if qs.exists():
             form = self.form_class(request.POST)
             if form.data['email_code'] == qs[0].email_code:
+                qs = qs[0]
                 qs.is_active = True
                 qs.save()
                 messages.success(request, self.success_message)
+                return redirect(reverse('login'))
             else:
                 messages.error(request, "Невірний код\nСпробуйте ще раз")
             return render(request, self.template_name, context={'form': form,
                                                                 'button': 'Перевірити'})
         else:
             return render(request, '404.html')
+
+
+class LoginView(View):
+    template_name = 'form.html'
+    form_class = forms.LoginForm
+    success_message = "Ви увійшли"
+
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template_name, context={'form': form,
+                                                            'button': 'Увійти'})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        _next = request.GET.get('next')
+        try:
+            if form.is_valid():
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')
+                user = authenticate(username=username, password=password)
+                login(request, user)
+                _next = _next or '/'
+                messages.success(request, self.success_message)
+                return redirect(_next)
+        except ValueError as e:
+            messages.error(request, e)
+            return render(request, self.template_name, context={'form': form,
+                                                                'button': 'Увійти'})
+
+
+class LogoutView(View):
+    success_message = "Ви вийшли"
+
+    def get(self, request):
+        logout(request)
+        messages.success(request, self.success_message)
+        return redirect(reverse('login'))

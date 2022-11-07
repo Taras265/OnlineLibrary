@@ -18,12 +18,14 @@ from django.contrib import admin
 from django.urls import path
 
 from config import settings
-from users.views import RegisterView, EmailValidationView
+from users.views import RegisterView, EmailValidationView, LoginView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/register/', RegisterView.as_view(), name='register'),
     path('accounts/validation/<int:pk>/', EmailValidationView.as_view(), name='email_validation'),
+    path('accounts/login/', LoginView.as_view(), name='login'),
+    path('accounts/logout/', LogoutView.as_view(), name='logout'),
 ]
 
 if settings.DEBUG:
