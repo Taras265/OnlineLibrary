@@ -73,3 +73,23 @@ class LoginForm(forms.Form):
             if not user:
                 raise ValueError('Користувач неактивен')
             return super().clean(*args, **kwargs)
+
+
+class ReaderForm(forms.ModelForm):
+    first_name = forms.CharField(label='Ім\'я', widget=forms.TextInput(attrs={'class': 'form-control',
+                                                                              'placeholder': "Ім\'я"}))
+    second_name = forms.CharField(label='По батькові', widget=forms.TextInput(attrs={'class': 'form-control',
+                                                                                     'placeholder': "По батькові"}))
+    last_name = forms.CharField(label='Фамілія', widget=forms.TextInput(attrs={'class': 'form-control',
+                                                                               'placeholder': "Фамілія"}))
+    card_number = forms.CharField(label='Номер картки', widget=forms.TextInput(attrs={'class': 'form-control',
+                                                                                      'placeholder': "Номер картки"}))
+    clubber = forms.BooleanField(label='Учасник клубу?', required=False,
+                                 widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
+    delays = forms.IntegerField(label='Затримки здачі', initial=0,
+                                widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                'placeholder': "Затримки здачі"}))
+
+    class Meta:
+        model = Reader
+        fields = ['first_name', 'second_name', 'last_name', 'card_number', 'clubber', 'delays']

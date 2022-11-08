@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from config import settings
 from users.views import RegisterView, EmailValidationView, LoginView, LogoutView
@@ -26,6 +26,8 @@ urlpatterns = [
     path('accounts/validation/<int:pk>/', EmailValidationView.as_view(), name='email_validation'),
     path('accounts/login/', LoginView.as_view(), name='login'),
     path('accounts/logout/', LogoutView.as_view(), name='logout'),
+
+    path('users/', include(('users.urls', 'users'))),
 ]
 
 if settings.DEBUG:

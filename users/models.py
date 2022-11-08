@@ -8,7 +8,7 @@ class Reader(models.Model):
     first_name = models.CharField(max_length=150, verbose_name='first name')
     second_name = models.CharField(max_length=150, verbose_name='second name')
     last_name = models.CharField(max_length=150, verbose_name='last name')
-    card_number = models.CharField(max_length=150, verbose_name='card number')
+    card_number = models.CharField(max_length=150, unique=True, verbose_name='card number')
     clubber = models.BooleanField()
     delays = models.PositiveSmallIntegerField(default=0)
 
